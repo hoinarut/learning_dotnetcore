@@ -5,7 +5,7 @@
 <head>
   <title>The World - @ViewBag.Title</title>
   <meta charset="utf-8" />
-
+  <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
   <link rel="stylesheet" href="~/css/site.css" />  
 </head>
 
@@ -24,7 +24,7 @@
   <div id="wrapper">
     <div id="main">
       <div>
-          <button id="menuToggle">Toggle Menu</button>
+          <button id="sidebarToggle" class="btn btn-primary">Toggle Menu</button>
       </div>
       @RenderBody()
     </div>
@@ -33,6 +33,7 @@
     </div>
   </div>
   <script src="~/lib/jquery/dist/jquery.min.js"></script>
+  <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
   @RenderSection("scripts", false)
   <script src="~/js/site.js"></script>
 </body>
