@@ -46,22 +46,27 @@ namespace TheWorld
                 //implement actual service
             }
             services.AddDbContext<WorldContext>();
+            services.AddScoped<IWorldRepository, WorldRepository>();
+            services.AddTransient<WorldContextSeedData>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app,
+          IHostingEnvironment env,
+          ILoggerFactory loggerFactory,
+          WorldContextSeedData seeder)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
+                loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+                loggerFactory.AddDebug(LogLevel.Information);
             }
             else
             {
                 app.UseExceptionHandler("/Home/Error");
+                loggerFactory.AddDebug(LogLevel.Error);
             }
 
             app.UseStaticFiles();
@@ -73,6 +78,8 @@ namespace TheWorld
                     template: "{controller}/{action}/{id?}",
                     defaults: new { controller = "App", action = "Index" });
             });
+
+            seeder.EnsureSeedData().Wait();
         }
     }
 }
