@@ -2,13 +2,16 @@
 // site.js
 (function () {
     var $sidebarAndWrapper = $("#sidebar,#wrapper");
+    var $icon = $("#sidebarToggle i.fa");
 
-    $("#menuToggle").on("click", function () {
-        $sidebarAndWrapper.toggleClass("display-sidebar");
-        if ($sidebarAndWrapper.hasClass("display-sidebar")) {
-            $(this).text("Show Menu");
+    $("#sidebarToggle").on("click", function () {
+        $sidebarAndWrapper.toggleClass("hide-sidebar");
+        if ($sidebarAndWrapper.hasClass("hide-sidebar")) {
+            $icon.removeClass("fa-angle-left");
+            $icon.addClass("fa-angle-right");
         } else {
-            $(this).text("Hide Menu");
+            $icon.removeClass("fa-angle-right");
+            $icon.addClass("fa-angle-left");
         }
     });
 
