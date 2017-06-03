@@ -1,5 +1,8 @@
 {
     "MailSettings": {
         "ToAddress": "tudor.hoinaru@gmail.com"
+    },
+    "ConnectionStrings": {
+        "WorldContextConnection": "Server=localhost;Database=TheWorldDb;User Id=sa;Password=Cla0017!;MultipleActiveResultSets=true"
     }
 }
