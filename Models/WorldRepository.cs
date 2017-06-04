@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
 namespace TheWorld.Models
@@ -15,11 +17,21 @@ namespace TheWorld.Models
             _logger = logger;
         }
 
+        public void AddTrip(Trip trip)
+        {
+            _context.Add(trip);
+        }
+
         public IEnumerable<Trip> GetAllTrips()
         {
             var trips = _context.Trips.ToList();
             _logger.LogInformation($"Found {trips.Count} trips");
             return trips;
+        }
+
+        public async Task<bool> SaveChangesAsync()
+        {
+            return (await _context.SaveChangesAsync()) > 0;
         }
     }
 }

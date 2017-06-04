@@ -2,13 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Serialization;
 using TheWorld.Models;
 using TheWorld.Services;
+using TheWorld.ViewModels;
 
 namespace TheWorld
 {
@@ -35,7 +38,10 @@ namespace TheWorld
         {
             services.AddSingleton(Configuration);
             // Add framework services.
-            services.AddMvc();
+            services.AddMvc().AddJsonOptions(config =>
+            {
+                config.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            });
             //Custom services
             if (_env.IsDevelopment())
             {
@@ -56,6 +62,10 @@ namespace TheWorld
           ILoggerFactory loggerFactory,
           WorldContextSeedData seeder)
         {
+            Mapper.Initialize(config =>
+            {
+                config.CreateMap<TripViewModel, Trip>().ReverseMap();
+            });
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
