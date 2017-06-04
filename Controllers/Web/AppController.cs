@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -28,6 +29,12 @@ namespace TheWorld.Controllers.Web
         }
         public IActionResult Index()
         {
+            return View();
+        }
+
+        [Authorize]
+        public IActionResult Trips()
+        {
             try
             {
                 var data = _repository.GetAllTrips();
@@ -44,6 +51,7 @@ namespace TheWorld.Controllers.Web
         {
             return View();
         }
+
         [HttpPost]
         public IActionResult Contact(ContactViewModel model)
         {
