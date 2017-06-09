@@ -20,4 +20,13 @@
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.1" />
     <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="1.0.0" />
   </ItemGroup>
+  <Target Name="AfterBuildTarget" AfterTargets="Build">
+    <Exec Command="npm install" />
+    <Exec Command="bower install" />
+    <Exec Command="gulp minify" />    
+  </Target>
+  <Target Name="PrePublishTarget" BeforeTargets="Publish">
+    <Exec Command="npm install" />
+    <Exec Command="bower install" />
+  </Target>
 </Project>

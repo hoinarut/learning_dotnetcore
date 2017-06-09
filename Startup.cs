@@ -40,19 +40,14 @@ namespace TheWorld
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton(Configuration);
-            // Add framework services.
-            services.AddMvc(config =>
-            {
-                if (_env.IsProduction())
-                {
-                    config.Filters.Add(new RequireHttpsAttribute());
-                }
-            })
+            // Add framework services.           
+            services.AddMvc()
             .AddJsonOptions(config =>
             {
                 config.SerializerSettings.ContractResolver =
                 new CamelCasePropertyNamesContractResolver();
             });
+
             //Custom services
             if (_env.IsDevelopment())
             {
@@ -61,6 +56,8 @@ namespace TheWorld
             else
             {
                 //implement actual service
+#warning Implement actual service
+                services.AddScoped<IMailService, DebugMailService>();
             }
             services.AddIdentity<WorldUser, IdentityRole>(config =>
             {
@@ -111,7 +108,9 @@ namespace TheWorld
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                loggerFactory.AddDebug(LogLevel.Error);
+                // loggerFactory.AddDebug(LogLevel.Error);
+                loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+                loggerFactory.AddDebug(LogLevel.Information);
             }
 
             app.UseStaticFiles();
